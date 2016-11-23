@@ -38,9 +38,6 @@
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingCoreSource Include="Structs.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <NativeReference Include="Mixpanel.framework">
       <Kind>Framework</Kind>
       <SmartLink>False</SmartLink>

@@ -1,11 +1,5 @@
 #import <UIKit/UIKit.h>
 
-#import "Mixpanel.h"
-#import "MixpanelPeople.h"
-#import "MPNetwork.h"
-#import "MPFoundation.h"
-#import "Mixpanel+AutomaticEvents.h"
-#import "AutomaticEventsConstants.h"
 #import "AutomaticEventsConstants.h"
 #import "Mixpanel+AutomaticEvents.h"
 #import "Mixpanel.h"

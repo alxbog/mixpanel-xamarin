@@ -293,65 +293,38 @@ namespace Mixpanel
 
 	// @protocol MixpanelDelegate <NSObject>
 	[Protocol, Model]
-	[BaseType(typeof(NSObject))]
+	[BaseType (typeof(NSObject))]
 	interface MixpanelDelegate
 	{
 		// @optional -(BOOL)mixpanelWillFlush:(Mixpanel * _Nonnull)mixpanel;
-		[Export("mixpanelWillFlush:")]
-		bool MixpanelWillFlush(Mixpanel mixpanel);
+		[Export ("mixpanelWillFlush:")]
+		bool MixpanelWillFlush (Mixpanel mixpanel);
 	}
 
 	// @interface MPSurvey : NSObject
-	[BaseType(typeof(NSObject))]
+	[BaseType (typeof(NSObject))]
 	[DisableDefaultCtor]
 	interface MPSurvey
 	{
 		// @property (readonly, nonatomic) NSUInteger ID;
-		[Export("ID")]
+		[Export ("ID")]
 		nuint ID { get; }
 
 		// @property (readonly, nonatomic, strong) NSString * name;
-		[Export("name", ArgumentSemantic.Strong)]
+		[Export ("name", ArgumentSemantic.Strong)]
 		string Name { get; }
 
 		// @property (readonly, nonatomic) NSUInteger collectionID;
-		[Export("collectionID")]
+		[Export ("collectionID")]
 		nuint CollectionID { get; }
 
 		// @property (readonly, nonatomic, strong) NSArray * questions;
-		[Export("questions", ArgumentSemantic.Strong)]
-		MPSurveyQuestion[] Questions { get; }
-	}
+		[Export ("questions", ArgumentSemantic.Strong)]
+		NSObject[] Questions { get; }
 
-	// @interface MPSurveyQuestion : NSObject
-	[BaseType(typeof(NSObject))]
-	interface MPSurveyQuestion
-	{
-		// @property (readonly, nonatomic) NSUInteger ID;
-		[Export("ID")]
-		nuint ID { get; }
-
-		// @property (readonly, nonatomic, strong) NSString * type;
-		[Export("type", ArgumentSemantic.Strong)]
-		string Type { get; }
-
-		// @property (readonly, nonatomic, strong) NSString * prompt;
-		[Export("prompt", ArgumentSemantic.Strong)]
-		string Prompt { get; }
-	}
-
-	// @interface MPSurveyMultipleChoiceQuestion : MPSurveyQuestion
-	[BaseType(typeof(MPSurveyQuestion))]
-	interface MPSurveyMultipleChoiceQuestion
-	{
-		// @property (readonly, nonatomic, strong) NSArray * choices;
-		[Export("choices", ArgumentSemantic.Strong)]
-		NSObject[] Choices { get; }
-	}
-
-	// @interface MPSurveyTextQuestion : MPSurveyQuestion
-	[BaseType(typeof(MPSurveyQuestion))]
-	interface MPSurveyTextQuestion
-	{
+		// +(MPSurvey *)surveyWithJSONObject:(NSDictionary *)object;
+		[Static]
+		[Export ("surveyWithJSONObject:")]
+		MPSurvey SurveyWithJSONObject (NSDictionary @object);
 	}
 }
