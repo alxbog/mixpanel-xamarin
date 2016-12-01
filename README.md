@@ -4,13 +4,17 @@ Current Mixpanel SDK version: **3.0.6**
 
 ## How to use?
 
-1. Clone the repository.
-2. Build Xamarin Binding project.
-3. Get `Mixpanel.dll` from build directory.
-4. Add `Mixpanel.dll` as a reference in your project.
+Download [Mixpanel.dll](Mixpanel.dll) and add it as a reference to your project.
 
 ## How to update to a newer version?
 
-1. Run `update_from_pod.sh` in the root folder to update from Cocoapods.
+### Prerequisites
+
+- [Carthage](https://github.com/Carthage/Carthage)
+- [Objective Sharpie](https://download.xamarin.com/objective-sharpie/ObjectiveSharpie.pkg)
+
+### Updating
+
+1. Run `update.sh` in the root folder to update using Carthage.
 2. Check `[Verify]` items in the `ApiDefinition.cs`.
-3. Build Xamarin Binding project and fix error, if any.
+3. Build Xamarin Binding project using `build.sh` and fix error, if any.
