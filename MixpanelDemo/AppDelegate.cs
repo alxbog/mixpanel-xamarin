@@ -22,9 +22,8 @@ namespace MixpanelDemo
 			// Override point for customization after application launch.
 			// If not required for your application you can safely delete this method
 
-			Mixpanel.SharedInstanceWithToken("<YOUR TOKEN>");
 			MixpanelTweaks.Register(typeof(AppTweaks));
-
+			Mixpanel.SharedInstanceWithToken("<YOUR TOKEN>");
 			Mixpanel.SharedInstance.Track("Launch");
 
 			return true;
