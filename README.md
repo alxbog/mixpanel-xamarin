@@ -27,11 +27,13 @@ Supported types: `string`, `bool`, `int`, `float`. Numeric types `int` and `floa
 
 ### Register tweaks class
 
-Right after Mixpanel initialization register tweaks class:
+Right *before* Mixpanel initialization register tweaks class:
 ```
-Mixpanel.SharedInstanceWithToken("<YOUR TOKEN>");
 MixpanelTweaks.Register(typeof(AppTweaks));
+Mixpanel.SharedInstanceWithToken("<YOUR TOKEN>");
 ```
+
+*IMPORTANT:* Registration of tweaks should be strictly before initialization. Otherwise, it breaks tweaks persistance.
 
 ### Use tweak value
 
