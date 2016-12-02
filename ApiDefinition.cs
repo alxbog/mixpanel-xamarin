@@ -303,7 +303,8 @@ namespace MixpanelLib
 
     // @interface MPTweak : NSObject
     [BaseType (typeof(NSObject))]
-    interface MPTweak
+	[Internal]
+	interface MPTweak
     {
         // -(instancetype _Nonnull)initWithName:(NSString * _Nonnull)name andEncoding:(NSString * _Nonnull)encoding;
         [Export ("initWithName:andEncoding:")]
@@ -345,7 +346,8 @@ namespace MixpanelLib
     // @protocol MPTweakObserver <NSObject>
     [Protocol, Model]
     [BaseType (typeof(NSObject))]
-    interface MPTweakObserver
+    [Internal]
+	interface MPTweakObserver
     {
         // @required -(void)tweakDidChange:(MPTweak * _Nonnull)tweak;
         [Abstract]
@@ -355,7 +357,8 @@ namespace MixpanelLib
 
     // @interface MPTweakStore : NSObject
     [BaseType (typeof(NSObject))]
-    interface MPTweakStore
+    [Internal]
+	interface MPTweakStore
     {
         // +(instancetype)sharedInstance;
         [Static]
