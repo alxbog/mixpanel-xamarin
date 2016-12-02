@@ -3,7 +3,7 @@ using Foundation;
 using ObjCRuntime;
 using UIKit;
 
-namespace Mixpanel
+namespace MixpanelLib
 {
 	// @interface MixpanelPeople : NSObject
 	[BaseType (typeof(NSObject))]
@@ -120,7 +120,7 @@ namespace Mixpanel
 
 		// @property (readonly, atomic) NSArray<MPSurvey *> * _Nonnull availableSurveys;
 		[Export ("availableSurveys")]
-		MPSurvey[] AvailableSurveys { get; }
+		NSObject[] AvailableSurveys { get; }
 
 		// @property (atomic) BOOL checkForNotificationsOnActive;
 		[Export ("checkForNotificationsOnActive")]
@@ -301,30 +301,85 @@ namespace Mixpanel
 		bool MixpanelWillFlush (Mixpanel mixpanel);
 	}
 
-	// @interface MPSurvey : NSObject
-	[BaseType (typeof(NSObject))]
-	[DisableDefaultCtor]
-	interface MPSurvey
-	{
-		// @property (readonly, nonatomic) NSUInteger ID;
-		[Export ("ID")]
-		nuint ID { get; }
+    // @interface MPTweak : NSObject
+    [BaseType (typeof(NSObject))]
+    interface MPTweak
+    {
+        // -(instancetype _Nonnull)initWithName:(NSString * _Nonnull)name andEncoding:(NSString * _Nonnull)encoding;
+        [Export ("initWithName:andEncoding:")]
+        IntPtr Constructor (string name, string encoding);
 
-		// @property (readonly, nonatomic, strong) NSString * name;
-		[Export ("name", ArgumentSemantic.Strong)]
-		string Name { get; }
+        // @property (readonly, copy, nonatomic) NSString * _Nonnull name;
+        [Export ("name")]
+        string Name { get; }
 
-		// @property (readonly, nonatomic) NSUInteger collectionID;
-		[Export ("collectionID")]
-		nuint CollectionID { get; }
+        // @property (readonly, copy, nonatomic) NSString * _Nonnull encoding;
+        [Export ("encoding")]
+        string Encoding { get; }
 
-		// @property (readonly, nonatomic, strong) NSArray * questions;
-		[Export ("questions", ArgumentSemantic.Strong)]
-		NSObject[] Questions { get; }
+        // @property (readwrite, nonatomic, strong) MPTweakValue _Nonnull defaultValue;
+        [Export ("defaultValue", ArgumentSemantic.Strong)]
+        NSObject DefaultValue { get; set; }
 
-		// +(MPSurvey *)surveyWithJSONObject:(NSDictionary *)object;
-		[Static]
-		[Export ("surveyWithJSONObject:")]
-		MPSurvey SurveyWithJSONObject (NSDictionary @object);
-	}
+        // @property (readwrite, nonatomic, strong) MPTweakValue _Nullable currentValue;
+        [NullAllowed, Export ("currentValue", ArgumentSemantic.Strong)]
+        NSObject CurrentValue { get; set; }
+
+        // @property (readwrite, nonatomic, strong) MPTweakValue _Nonnull minimumValue;
+        [Export ("minimumValue", ArgumentSemantic.Strong)]
+        NSObject MinimumValue { get; set; }
+
+        // @property (readwrite, nonatomic, strong) MPTweakValue _Nonnull maximumValue;
+        [Export ("maximumValue", ArgumentSemantic.Strong)]
+        NSObject MaximumValue { get; set; }
+
+        // -(void)addObserver:(id<MPTweakObserver> _Nonnull)observer;
+        [Export ("addObserver:")]
+        void AddObserver (MPTweakObserver observer);
+
+        // -(void)removeObserver:(id<MPTweakObserver> _Nonnull)observer;
+        [Export ("removeObserver:")]
+        void RemoveObserver (MPTweakObserver observer);
+    }
+
+    // @protocol MPTweakObserver <NSObject>
+    [Protocol, Model]
+    [BaseType (typeof(NSObject))]
+    interface MPTweakObserver
+    {
+        // @required -(void)tweakDidChange:(MPTweak * _Nonnull)tweak;
+        [Abstract]
+        [Export ("tweakDidChange:")]
+        void TweakDidChange (MPTweak tweak);
+    }
+
+    // @interface MPTweakStore : NSObject
+    [BaseType (typeof(NSObject))]
+    interface MPTweakStore
+    {
+        // +(instancetype)sharedInstance;
+        [Static]
+        [Export ("sharedInstance")]
+        MPTweakStore SharedInstance ();
+
+        // @property (readonly, copy, nonatomic) NSArray * tweaks;
+        [Export ("tweaks", ArgumentSemantic.Copy)]
+        MPTweak[] Tweaks { get; }
+
+        // -(MPTweak *)tweakWithName:(NSString *)name;
+        [Export ("tweakWithName:")]
+        MPTweak TweakWithName (string name);
+
+        // -(void)addTweak:(MPTweak *)tweak;
+        [Export ("addTweak:")]
+        void AddTweak (MPTweak tweak);
+
+        // -(void)removeTweak:(MPTweak *)tweak;
+        [Export ("removeTweak:")]
+        void RemoveTweak (MPTweak tweak);
+
+        // -(void)reset;
+        [Export ("reset")]
+        void Reset ();
+    }
 }

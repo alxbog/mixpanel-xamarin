@@ -1,13 +1,13 @@
-#Autosave files
+# Autosave files
 *~
 
-#build
+# Build
 [Oo]bj/
 [Bb]in/
 packages/
 TestResults/
 
-# globs
+# Globs
 Makefile.in
 *.DS_Store
 *.sln.cache
@@ -28,16 +28,17 @@ tarballs/
 test-results/
 Thumbs.db
 
-#Mac bundle stuff
+# Mac bundle stuff
 *.dmg
 *.app
 
-#resharper
+# Rider & Resharper
 *_Resharper.*
 *.Resharper
+.idea
 
-#dotCover
+# dotCover
 *.dotCover
 
-#Carthage
+# Carthage
 Cartfile.resolved
