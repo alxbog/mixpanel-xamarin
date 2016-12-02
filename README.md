@@ -27,11 +27,13 @@ Supported types: `string`, `bool`, `int`, `float`. Numeric types `int` and `floa
 
 ### Register tweaks class
 
-Right after Mixpanel initialization register tweaks class:
+Right **before** Mixpanel initialization register tweaks class:
 ```
-Mixpanel.SharedInstanceWithToken("<YOUR TOKEN>");
 MixpanelTweaks.Register(typeof(AppTweaks));
+Mixpanel.SharedInstanceWithToken("<YOUR TOKEN>");
 ```
+
+**IMPORTANT:** Registration of tweaks should be strictly before initialization. Otherwise, it breaks tweaks persistance.
 
 ### Use tweak value
 
@@ -45,7 +47,7 @@ label.Text = AppTweaks.LabelText.GetValue();
 _binding = AppTweaks.LabelText.Bind(text => label.Text = text);
 ```
 
-*IMPORTANT:* `Tweak.Bind()` method returns disposable binding object that should be used to control binding lifetime.
+**IMPORTANT:** `Tweak.Bind()` method returns disposable binding object that should be used to control binding lifetime.
 Generally you should save this binding object as a `ViewController`'s field variable, so the binding will be disposed with this `ViewController`.
 
 
