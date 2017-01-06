@@ -106,19 +106,19 @@ namespace MixpanelLib
 		[Export ("shouldManageNetworkActivityIndicator")]
 		bool ShouldManageNetworkActivityIndicator { get; set; }
 
-		// @property (atomic) BOOL checkForSurveysOnActive;
+		// @property (atomic) BOOL checkForSurveysOnActive __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
 		[Export ("checkForSurveysOnActive")]
 		bool CheckForSurveysOnActive { get; set; }
 
-		// @property (atomic) BOOL showSurveyOnActive;
+		// @property (atomic) BOOL showSurveyOnActive __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
 		[Export ("showSurveyOnActive")]
 		bool ShowSurveyOnActive { get; set; }
 
-		// @property (readonly, atomic) BOOL isSurveyAvailable;
+		// @property (readonly, atomic) BOOL isSurveyAvailable __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
 		[Export ("isSurveyAvailable")]
 		bool IsSurveyAvailable { get; }
 
-		// @property (readonly, atomic) NSArray<MPSurvey *> * _Nonnull availableSurveys;
+		// @property (readonly, atomic) NSArray<MPSurvey *> * _Nonnull availableSurveys __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
 		[Export ("availableSurveys")]
 		NSObject[] AvailableSurveys { get; }
 
@@ -258,11 +258,11 @@ namespace MixpanelLib
 		[Export ("libVersion")]
 		string LibVersion { get; }
 
-		// -(void)showSurveyWithID:(NSUInteger)ID;
+		// -(void)showSurveyWithID:(NSUInteger)ID __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
 		[Export ("showSurveyWithID:")]
 		void ShowSurveyWithID (nuint ID);
 
-		// -(void)showSurvey;
+		// -(void)showSurvey __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
 		[Export ("showSurvey")]
 		void ShowSurvey ();
 
@@ -301,88 +301,88 @@ namespace MixpanelLib
 		bool MixpanelWillFlush (Mixpanel mixpanel);
 	}
 
-    // @interface MPTweak : NSObject
-    [BaseType (typeof(NSObject))]
+	// @interface MPTweak : NSObject
+	[BaseType (typeof(NSObject))]
 	[Internal]
 	interface MPTweak
-    {
-        // -(instancetype _Nonnull)initWithName:(NSString * _Nonnull)name andEncoding:(NSString * _Nonnull)encoding;
-        [Export ("initWithName:andEncoding:")]
-        IntPtr Constructor (string name, string encoding);
+	{
+		// -(instancetype _Nonnull)initWithName:(NSString * _Nonnull)name andEncoding:(NSString * _Nonnull)encoding;
+		[Export ("initWithName:andEncoding:")]
+		IntPtr Constructor (string name, string encoding);
 
-        // @property (readonly, copy, nonatomic) NSString * _Nonnull name;
-        [Export ("name")]
-        string Name { get; }
+		// @property (readonly, copy, nonatomic) NSString * _Nonnull name;
+		[Export ("name")]
+		string Name { get; }
 
-        // @property (readonly, copy, nonatomic) NSString * _Nonnull encoding;
-        [Export ("encoding")]
-        string Encoding { get; }
+		// @property (readonly, copy, nonatomic) NSString * _Nonnull encoding;
+		[Export ("encoding")]
+		string Encoding { get; }
 
-        // @property (readwrite, nonatomic, strong) MPTweakValue _Nonnull defaultValue;
-        [Export ("defaultValue", ArgumentSemantic.Strong)]
-        NSObject DefaultValue { get; set; }
+		// @property (readwrite, nonatomic, strong) MPTweakValue _Nonnull defaultValue;
+		[Export ("defaultValue", ArgumentSemantic.Strong)]
+		NSObject DefaultValue { get; set; }
 
-        // @property (readwrite, nonatomic, strong) MPTweakValue _Nullable currentValue;
-        [NullAllowed, Export ("currentValue", ArgumentSemantic.Strong)]
-        NSObject CurrentValue { get; set; }
+		// @property (readwrite, nonatomic, strong) MPTweakValue _Nullable currentValue;
+		[NullAllowed, Export ("currentValue", ArgumentSemantic.Strong)]
+		NSObject CurrentValue { get; set; }
 
-        // @property (readwrite, nonatomic, strong) MPTweakValue _Nonnull minimumValue;
-        [Export ("minimumValue", ArgumentSemantic.Strong)]
-        NSObject MinimumValue { get; set; }
+		// @property (readwrite, nonatomic, strong) MPTweakValue _Nonnull minimumValue;
+		[Export ("minimumValue", ArgumentSemantic.Strong)]
+		NSObject MinimumValue { get; set; }
 
-        // @property (readwrite, nonatomic, strong) MPTweakValue _Nonnull maximumValue;
-        [Export ("maximumValue", ArgumentSemantic.Strong)]
-        NSObject MaximumValue { get; set; }
+		// @property (readwrite, nonatomic, strong) MPTweakValue _Nonnull maximumValue;
+		[Export ("maximumValue", ArgumentSemantic.Strong)]
+		NSObject MaximumValue { get; set; }
 
-        // -(void)addObserver:(id<MPTweakObserver> _Nonnull)observer;
-        [Export ("addObserver:")]
-        void AddObserver (MPTweakObserver observer);
+		// -(void)addObserver:(id<MPTweakObserver> _Nonnull)observer;
+		[Export ("addObserver:")]
+		void AddObserver (MPTweakObserver observer);
 
-        // -(void)removeObserver:(id<MPTweakObserver> _Nonnull)observer;
-        [Export ("removeObserver:")]
-        void RemoveObserver (MPTweakObserver observer);
-    }
+		// -(void)removeObserver:(id<MPTweakObserver> _Nonnull)observer;
+		[Export ("removeObserver:")]
+		void RemoveObserver (MPTweakObserver observer);
+	}
 
-    // @protocol MPTweakObserver <NSObject>
-    [Protocol, Model]
-    [BaseType (typeof(NSObject))]
+	// @protocol MPTweakObserver <NSObject>
+	[Protocol, Model]
+	[BaseType (typeof(NSObject))]
     [Internal]
 	interface MPTweakObserver
-    {
-        // @required -(void)tweakDidChange:(MPTweak * _Nonnull)tweak;
-        [Abstract]
-        [Export ("tweakDidChange:")]
-        void TweakDidChange (MPTweak tweak);
-    }
+	{
+		// @required -(void)tweakDidChange:(MPTweak * _Nonnull)tweak;
+		[Abstract]
+		[Export ("tweakDidChange:")]
+		void TweakDidChange (MPTweak tweak);
+	}
 
-    // @interface MPTweakStore : NSObject
-    [BaseType (typeof(NSObject))]
+	// @interface MPTweakStore : NSObject
+	[BaseType (typeof(NSObject))]
     [Internal]
 	interface MPTweakStore
-    {
-        // +(instancetype)sharedInstance;
-        [Static]
-        [Export ("sharedInstance")]
-        MPTweakStore SharedInstance ();
+	{
+		// +(instancetype)sharedInstance;
+		[Static]
+		[Export ("sharedInstance")]
+		MPTweakStore SharedInstance ();
 
-        // @property (readonly, copy, nonatomic) NSArray * tweaks;
-        [Export ("tweaks", ArgumentSemantic.Copy)]
+		// @property (readonly, copy, nonatomic) NSArray * tweaks;
+		[Export ("tweaks", ArgumentSemantic.Copy)]
         MPTweak[] Tweaks { get; }
 
-        // -(MPTweak *)tweakWithName:(NSString *)name;
-        [Export ("tweakWithName:")]
-        MPTweak TweakWithName (string name);
+		// -(MPTweak *)tweakWithName:(NSString *)name;
+		[Export ("tweakWithName:")]
+		MPTweak TweakWithName (string name);
 
-        // -(void)addTweak:(MPTweak *)tweak;
-        [Export ("addTweak:")]
-        void AddTweak (MPTweak tweak);
+		// -(void)addTweak:(MPTweak *)tweak;
+		[Export ("addTweak:")]
+		void AddTweak (MPTweak tweak);
 
-        // -(void)removeTweak:(MPTweak *)tweak;
-        [Export ("removeTweak:")]
-        void RemoveTweak (MPTweak tweak);
+		// -(void)removeTweak:(MPTweak *)tweak;
+		[Export ("removeTweak:")]
+		void RemoveTweak (MPTweak tweak);
 
-        // -(void)reset;
-        [Export ("reset")]
-        void Reset ();
-    }
+		// -(void)reset;
+		[Export ("reset")]
+		void Reset ();
+	}
 }
