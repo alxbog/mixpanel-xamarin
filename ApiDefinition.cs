@@ -1,7 +1,6 @@
 using System;
 using Foundation;
 using ObjCRuntime;
-using UIKit;
 
 namespace MixpanelLib
 {
@@ -90,6 +89,10 @@ namespace MixpanelLib
 		[Export ("distinctId")]
 		string DistinctId { get; }
 
+		// @property (readonly, copy, atomic) NSString * _Nonnull alias;
+		[Export ("alias")]
+		string Alias { get; }
+
 		// @property (copy, nonatomic) NSString * _Nonnull serverURL;
 		[Export ("serverURL")]
 		string ServerURL { get; set; }
@@ -105,22 +108,6 @@ namespace MixpanelLib
 		// @property (atomic) BOOL shouldManageNetworkActivityIndicator;
 		[Export ("shouldManageNetworkActivityIndicator")]
 		bool ShouldManageNetworkActivityIndicator { get; set; }
-
-		// @property (atomic) BOOL checkForSurveysOnActive __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
-		[Export ("checkForSurveysOnActive")]
-		bool CheckForSurveysOnActive { get; set; }
-
-		// @property (atomic) BOOL showSurveyOnActive __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
-		[Export ("showSurveyOnActive")]
-		bool ShowSurveyOnActive { get; set; }
-
-		// @property (readonly, atomic) BOOL isSurveyAvailable __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
-		[Export ("isSurveyAvailable")]
-		bool IsSurveyAvailable { get; }
-
-		// @property (readonly, atomic) NSArray<MPSurvey *> * _Nonnull availableSurveys __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
-		[Export ("availableSurveys")]
-		NSObject[] AvailableSurveys { get; }
 
 		// @property (atomic) BOOL checkForNotificationsOnActive;
 		[Export ("checkForNotificationsOnActive")]
@@ -150,9 +137,13 @@ namespace MixpanelLib
 		[Export ("miniNotificationPresentationTime")]
 		nfloat MiniNotificationPresentationTime { get; set; }
 
-		// @property (atomic, strong) UIColor * _Nullable miniNotificationBackgroundColor;
-		[NullAllowed, Export ("miniNotificationBackgroundColor", ArgumentSemantic.Strong)]
-		UIColor MiniNotificationBackgroundColor { get; set; }
+		// @property (atomic) UInt64 minimumSessionDuration;
+		[Export ("minimumSessionDuration")]
+		ulong MinimumSessionDuration { get; set; }
+
+		// @property (atomic) UInt64 maximumSessionDuration;
+		[Export ("maximumSessionDuration")]
+		ulong MaximumSessionDuration { get; set; }
 
 		[Wrap ("WeakDelegate")]
 		[NullAllowed]
@@ -172,10 +163,14 @@ namespace MixpanelLib
 		[Export ("sharedInstanceWithToken:launchOptions:")]
 		Mixpanel SharedInstanceWithToken (string apiToken, [NullAllowed] NSDictionary launchOptions);
 
-		// +(Mixpanel * _Nonnull)sharedInstance;
+		// +(Mixpanel * _Nullable)sharedInstance;
 		[Static]
-		[Export ("sharedInstance")]
+		[NullAllowed, Export ("sharedInstance")]
 		Mixpanel SharedInstance { get; }
+
+		// -(instancetype _Nonnull)initWithToken:(NSString * _Nonnull)apiToken launchOptions:(NSDictionary * _Nullable)launchOptions flushInterval:(NSUInteger)flushInterval trackCrashes:(BOOL)trackCrashes;
+		[Export ("initWithToken:launchOptions:flushInterval:trackCrashes:")]
+		IntPtr Constructor (string apiToken, [NullAllowed] NSDictionary launchOptions, nuint flushInterval, bool trackCrashes);
 
 		// -(instancetype _Nonnull)initWithToken:(NSString * _Nonnull)apiToken launchOptions:(NSDictionary * _Nullable)launchOptions andFlushInterval:(NSUInteger)flushInterval;
 		[Export ("initWithToken:launchOptions:andFlushInterval:")]
@@ -189,6 +184,10 @@ namespace MixpanelLib
 		[Export ("identify:")]
 		void Identify (string distinctId);
 
+		// -(void)identify:(NSString * _Nonnull)distinctId usePeople:(BOOL)usePeople;
+		[Export ("identify:usePeople:")]
+		void Identify (string distinctId, bool usePeople);
+
 		// -(void)track:(NSString * _Nonnull)event;
 		[Export ("track:")]
 		void Track (string @event);
@@ -196,10 +195,6 @@ namespace MixpanelLib
 		// -(void)track:(NSString * _Nonnull)event properties:(NSDictionary * _Nullable)properties;
 		[Export ("track:properties:")]
 		void Track (string @event, [NullAllowed] NSDictionary properties);
-
-		// -(void)trackPushNotification:(NSDictionary * _Nonnull)userInfo;
-		[Export ("trackPushNotification:")]
-		void TrackPushNotification (NSDictionary userInfo);
 
 		// -(void)registerSuperProperties:(NSDictionary * _Nonnull)properties;
 		[Export ("registerSuperProperties:")]
@@ -229,6 +224,10 @@ namespace MixpanelLib
 		[Export ("timeEvent:")]
 		void TimeEvent (string @event);
 
+		// -(double)eventElapsedTime:(NSString * _Nonnull)event;
+		[Export ("eventElapsedTime:")]
+		double EventElapsedTime (string @event);
+
 		// -(void)clearTimedEvents;
 		[Export ("clearTimedEvents")]
 		void ClearTimedEvents ();
@@ -241,7 +240,7 @@ namespace MixpanelLib
 		[Export ("flush")]
 		void Flush ();
 
-		// -(void)flushWithCompletion:(void (^ _Nullable)())handler;
+		// -(void)flushWithCompletion:(void (^ _Nullable)(void))handler;
 		[Export ("flushWithCompletion:")]
 		void FlushWithCompletion ([NullAllowed] Action handler);
 
@@ -253,18 +252,14 @@ namespace MixpanelLib
 		[Export ("createAlias:forDistinctID:")]
 		void CreateAlias (string alias, string distinctID);
 
+		// -(void)createAlias:(NSString * _Nonnull)alias forDistinctID:(NSString * _Nonnull)distinctID usePeople:(BOOL)usePeople;
+		[Export ("createAlias:forDistinctID:usePeople:")]
+		void CreateAlias (string alias, string distinctID, bool usePeople);
+
 		// +(NSString * _Nonnull)libVersion;
 		[Static]
 		[Export ("libVersion")]
 		string LibVersion { get; }
-
-		// -(void)showSurveyWithID:(NSUInteger)ID __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
-		[Export ("showSurveyWithID:")]
-		void ShowSurveyWithID (nuint ID);
-
-		// -(void)showSurvey __attribute__((deprecated("Mixpanel surveys are deprecated as of release 3.0.8")));
-		[Export ("showSurvey")]
-		void ShowSurvey ();
 
 		// -(void)showNotificationWithID:(NSUInteger)ID;
 		[Export ("showNotificationWithID:")]
@@ -282,7 +277,7 @@ namespace MixpanelLib
 		[Export ("joinExperiments")]
 		void JoinExperiments ();
 
-		// -(void)joinExperimentsWithCallback:(void (^ _Nullable)())experimentsLoadedCallback;
+		// -(void)joinExperimentsWithCallback:(void (^ _Nullable)(void))experimentsLoadedCallback;
 		[Export ("joinExperimentsWithCallback:")]
 		void JoinExperimentsWithCallback ([NullAllowed] Action experimentsLoadedCallback);
 
